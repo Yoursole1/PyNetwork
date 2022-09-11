@@ -1,9 +1,7 @@
 import random
 
 from graphic.Board import Board
-from neuralnet.Layer import Layer
 from neuralnet.Network import Network
-import copy
 
 
 def getRandom():
@@ -17,15 +15,17 @@ def getRandom():
 
 
 def main():
-    network = Network([2, 2])
+    values = getRandom()
+    networkA = Network([2, 2])
+    networkB = Network([2, 2])
 
-    for i in range(100000):
-        networkB = Network([2,2])
-        randomVals = getRandom()
-        if sum(networkB.calcOutputs(randomVals))/len(networkB.calcOutputs(randomVals)) < sum(network.calcOutputs(randomVals))/len(network.calcOutputs(randomVals)):
-            network = network.breed(networkB)
-
-    print(network.calcOutputs(getRandom()))
+    print(networkA.calcOutputs(values))
+    print(networkB.calcOutputs(values))
+    print("------")
+    networkC = networkA.breed(networkB)
+    print(networkA.calcOutputs(values))
+    print(networkB.calcOutputs(values))
+    print(networkC.calcOutputs(values))
 
 
 

@@ -1,5 +1,6 @@
 import random
 import math
+import copy
 
 
 def sigmoid(value: float):
@@ -8,11 +9,20 @@ def sigmoid(value: float):
 
 class Layer:
 
-    def __init__(self, inputCount: int, outputCount: int):
+    def __init__(self, inputCount: int, outputCount: int, weights=None, biases=None):
+        if biases is None:
+            biases = []
+        if weights is None:
+            weights = []
+
         self.inputCount = inputCount
         self.outputCount = outputCount
-        self.weights = [[random.random() for _ in range(self.inputCount)] for _ in range(self.outputCount + 1)]
-        self.biases = [random.random() for _ in range(self.outputCount)]
+        if len(weights) == 0 and len(biases) == 0:
+            self.weights = [[random.random() for _ in range(self.inputCount)] for _ in range(self.outputCount + 1)]
+            self.biases = [random.random() for _ in range(self.outputCount)]
+        else:
+            self.weights = weights
+            self.biases = biases
 
     def transform(self, inputs: []):
         outputs = []
@@ -28,9 +38,12 @@ class Layer:
         return outputs
 
     def breed(self, other):
+        weights = copy.deepcopy(self.weights)
+        biases = copy.deepcopy(self.biases)
+
         for i in range(len(self.biases)):
-            val1 = self.biases[i]
-            val2 = other.biases[i]
+            val1 = copy.deepcopy(self.biases[i])
+            val2 = copy.deepcopy(other.biases[i])
 
             # randomly pick one (recombination in life)
 
@@ -43,7 +56,7 @@ class Layer:
                 selected += (random.random() - 0.5)
                 selected = sigmoid(selected)
 
-            self.biases[i] = selected
+            biases[i] = selected
 
         for i in range(len(self.weights)):
             for j in range(len(self.weights[0])):
@@ -61,9 +74,9 @@ class Layer:
                     selected += (random.random() - 0.5)
                     selected = sigmoid(selected)
 
-                self.weights[i][j] = selected
+                weights[i][j] = selected
 
-        return self
+        return Layer(self.inputCount, self.outputCount, weights, biases)
 
     def isIsomorphic(self, other):
         return self.inputCount == other.inputCount and self.outputCount == other.outputCount

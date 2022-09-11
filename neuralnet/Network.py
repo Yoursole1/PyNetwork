@@ -1,12 +1,19 @@
+import copy
+
 from neuralnet.Layer import Layer
 
 
 class Network:
 
-    def __init__(self, layerSizes: []):
-        self.layers = []
-        for i in range(len(layerSizes)-1):
-            self.layers.append(Layer(layerSizes[i], layerSizes[i + 1]))
+    def __init__(self, layerSizes: [], layers=None):
+        if layers == None:
+            layers = []
+
+        self.layers = layers
+        self.layerSizes = layerSizes
+        if len(self.layers) == 0:
+            for i in range(len(layerSizes) - 1):
+                self.layers.append(Layer(layerSizes[i], layerSizes[i + 1]))
 
     def calcOutputs(self, inputs: []):
         for layer in self.layers:
@@ -32,12 +39,14 @@ class Network:
                 works = False
         return works
 
+    # Returns a NEW network with the bred values
     def breed(self, other):
         if not self.isIsomorphic(other):
             raise Exception()
 
+        layers = copy.deepcopy(self.layers)
+
         for i in range(len(self.layers)):
-            self.layers[i] = self.layers[i].breed(other.layers[i])
+            layers[i] = self.layers[i].breed(other.layers[i])
 
-        return self
-
+        return Network(self.layerSizes, layers)
