@@ -18,8 +18,9 @@ class Layer:
         self.inputCount = inputCount
         self.outputCount = outputCount
         if len(weights) == 0 and len(biases) == 0:
-            self.weights = [[(random.random() - (1/2)) * 2 for _ in range(self.inputCount)] for _ in range(self.outputCount)]
-            self.biases = [(random.random() - (1/2)) * 2 for _ in range(self.outputCount)]
+            self.weights = [[(random.random() - (1 / 2)) * 2 for _ in range(self.inputCount)] for _ in
+                            range(self.outputCount)]
+            self.biases = [(random.random() - (1 / 2)) * 2 for _ in range(self.outputCount)]
         else:
             self.weights = weights
             self.biases = biases
@@ -30,12 +31,11 @@ class Layer:
     def transform(self, inputs: []):
         outputs = []
 
-
         for nodeOut in range(self.outputCount):
             weightedOutput: float = self.biases[nodeOut]
 
             for nodeIn in range(self.inputCount):
-                weightedOutput += inputs[nodeIn] * self.weights[nodeIn][nodeOut]
+                weightedOutput += inputs[nodeIn] * self.weights[nodeOut][nodeIn]
 
             outputs.append(sigmoid(weightedOutput))
 
@@ -54,7 +54,7 @@ class Layer:
             # selected = random.choice([val1, val2])
             selected = random.choice([val1, val2])
 
-            selected += (random.random() - 0.5)/epoch
+            selected += (random.random() - 0.5) / epoch
             # selected = sigmoid(selected)
 
             biases[i] = selected
@@ -68,7 +68,7 @@ class Layer:
 
                 selected = random.choice([val1, val2])
 
-                selected += (random.random() - 0.5)/epoch
+                selected += (random.random() - 0.5) / epoch
                 # selected = sigmoid(selected)
 
                 weights[i][j] = selected
