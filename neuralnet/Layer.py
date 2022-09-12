@@ -18,26 +18,30 @@ class Layer:
         self.inputCount = inputCount
         self.outputCount = outputCount
         if len(weights) == 0 and len(biases) == 0:
-            self.weights = [[random.random() for _ in range(self.inputCount)] for _ in range(self.outputCount + 1)]
-            self.biases = [random.random() for _ in range(self.outputCount)]
+            self.weights = [[(random.random() - (1/2)) * 2 for _ in range(self.inputCount)] for _ in range(self.outputCount)]
+            self.biases = [(random.random() - (1/2)) * 2 for _ in range(self.outputCount)]
         else:
             self.weights = weights
             self.biases = biases
 
+    def toString(self):
+        return str(self.weights) + "----" + str(self.biases)
+
     def transform(self, inputs: []):
         outputs = []
+
 
         for nodeOut in range(self.outputCount):
             weightedOutput: float = self.biases[nodeOut]
 
             for nodeIn in range(self.inputCount):
-                weightedOutput += inputs[nodeIn] * self.weights[nodeOut][nodeIn]
+                weightedOutput += inputs[nodeIn] * self.weights[nodeIn][nodeOut]
 
             outputs.append(sigmoid(weightedOutput))
 
         return outputs
 
-    def breed(self, other):
+    def breed(self, other, epoch):
         weights = copy.deepcopy(self.weights)
         biases = copy.deepcopy(self.biases)
 
@@ -47,14 +51,11 @@ class Layer:
 
             # randomly pick one (recombination in life)
 
+            # selected = random.choice([val1, val2])
             selected = random.choice([val1, val2])
 
-            # mutate 2% of the time
-            mutateSelector = random.random()
-
-            if mutateSelector < 0.02:
-                selected += (random.random() - 0.5)
-                selected = sigmoid(selected)
+            selected += (random.random() - 0.5)/epoch
+            # selected = sigmoid(selected)
 
             biases[i] = selected
 
@@ -67,16 +68,16 @@ class Layer:
 
                 selected = random.choice([val1, val2])
 
-                # mutate 2% of the time
-                mutateSelector = random.random()
-
-                if mutateSelector < 0.02:
-                    selected += (random.random() - 0.5)
-                    selected = sigmoid(selected)
+                selected += (random.random() - 0.5)/epoch
+                # selected = sigmoid(selected)
 
                 weights[i][j] = selected
 
         return Layer(self.inputCount, self.outputCount, weights, biases)
+
+    def mutate(self):
+        weights = copy.deepcopy(self.weights)
+        biases = copy.deepcopy(self.biases)
 
     def isIsomorphic(self, other):
         return self.inputCount == other.inputCount and self.outputCount == other.outputCount

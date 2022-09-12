@@ -5,7 +5,7 @@ from neuralnet.Network import Network
 
 
 def getRandom():
-    a = list(range(10))
+    a = [0.1]
     output = []
 
     for i in range(2):
@@ -14,18 +14,42 @@ def getRandom():
     return output
 
 
-def main():
-    values = getRandom()
-    networkA = Network([2, 2])
-    networkB = Network([2, 2])
+def train():
+    networks = []
 
-    print(networkA.calcOutputs(values))
-    print(networkB.calcOutputs(values))
-    print("------")
-    networkC = networkA.breed(networkB)
-    print(networkA.calcOutputs(values))
-    print(networkB.calcOutputs(values))
-    print(networkC.calcOutputs(values))
+    amountOfNetworks = 20
+    for i in range(amountOfNetworks):
+        networks.append(Network([2, 2]))
+
+    for epoch in range(1, 1000):
+        inputs = getRandom()
+
+        outputs = {}
+        for network in networks:
+            outputs[network] = network.calcOutputs(inputs)
+
+        for key, value in outputs.items():
+            outputs[key] = sum(value) / len(value)
+
+        outputs = {k: v for k, v in sorted(outputs.items(), key=lambda item: item[1], reverse=False)}
+
+        netA = list(outputs.keys())[0]
+        netB = list(outputs.keys())[1]
+
+        newNetworks = []
+        for i in range(amountOfNetworks):
+            newNetworks.append(netA.breed(netB, epoch))
+
+        networks = newNetworks
+
+        print(networks[0].calcOutputs(inputs))
+
+
+def main():
+    train()
+    # network = Network([2, 2])
+    # print(network.toString())
+    # print(network.calcOutputs([0, 0]))
 
 
 
