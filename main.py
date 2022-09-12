@@ -42,7 +42,7 @@ def train():
 
         networks = newNetworks
 
-        print(networks[0].calcOutputs(inputs))
+        print(sum(networks[0].calcOutputs(inputs)) / len(networks[0].calcOutputs(inputs)))
 
 
 def main():

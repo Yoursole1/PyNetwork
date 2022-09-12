@@ -35,7 +35,7 @@ class Layer:
             weightedOutput: float = self.biases[nodeOut]
 
             for nodeIn in range(self.inputCount):
-                weightedOutput += inputs[nodeIn] * self.weights[nodeIn][nodeOut]
+                weightedOutput += inputs[nodeIn] * self.weights[nodeOut][nodeIn]
 
             outputs.append(sigmoid(weightedOutput))
 
