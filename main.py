@@ -14,12 +14,12 @@ def getRandom():
     return output
 
 
-def train():
+def train():  # trains the network to output small values
     networks = []
 
     amountOfNetworks = 20
     for i in range(amountOfNetworks):
-        networks.append(Network([2, 2]))
+        networks.append(Network([2, 5, 10, 5, 2]))
 
     for epoch in range(1, 1000):
         inputs = getRandom()
@@ -50,7 +50,6 @@ def main():
     # network = Network([2, 2])
     # print(network.toString())
     # print(network.calcOutputs([0, 0]))
-
 
 
 if __name__ == "__main__":
