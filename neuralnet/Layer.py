@@ -7,6 +7,13 @@ def sigmoid(value: float):
     return 1 / (1 + math.exp(-1 * value))
 
 
+def relu(value: float):
+    if value > 0:
+        return value
+    else:
+        return 0
+
+
 class Layer:
 
     def __init__(self, inputCount: int, outputCount: int, weights=None, biases=None):
@@ -37,11 +44,14 @@ class Layer:
             for nodeIn in range(self.inputCount):
                 weightedOutput += inputs[nodeIn] * self.weights[nodeOut][nodeIn]
 
-            outputs.append(sigmoid(weightedOutput))
+            # TODO add sigmoid back
+            outputs.append(relu(weightedOutput))
 
         return outputs
 
     def breed(self, other, epoch):
+        mutationRate = 1
+
         weights = copy.deepcopy(self.weights)
         biases = copy.deepcopy(self.biases)
 
@@ -54,7 +64,9 @@ class Layer:
             # selected = random.choice([val1, val2])
             selected = random.choice([val1, val2])
 
-            selected += (random.random() - 0.5) / epoch
+            mutate = random.random()
+            if mutate < mutationRate:
+                selected += (random.random() - 0.5) / epoch
             # selected = sigmoid(selected)
 
             biases[i] = selected
@@ -68,7 +80,9 @@ class Layer:
 
                 selected = random.choice([val1, val2])
 
-                selected += (random.random() - 0.5) / epoch
+                mutate = random.random()
+                if mutate < mutationRate:
+                    selected += (random.random() - 0.5) / epoch
                 # selected = sigmoid(selected)
 
                 weights[i][j] = selected

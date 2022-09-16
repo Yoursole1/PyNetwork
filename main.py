@@ -5,7 +5,7 @@ from neuralnet.Network import Network
 
 
 def getRandom():
-    a = [0.1]
+    a = [0, 1]
     output = []
 
     for i in range(2):
@@ -17,11 +17,11 @@ def getRandom():
 def train():  # trains the network to output small values
     networks = []
 
-    amountOfNetworks = 20
+    amountOfNetworks = 100
     for i in range(amountOfNetworks):
-        networks.append(Network([2, 5, 10, 5, 2]))
+        networks.append(Network([2, 10, 1]))
 
-    for epoch in range(1, 1000):
+    for epoch in range(1, 2500):
         inputs = getRandom()
 
         outputs = {}
@@ -30,6 +30,11 @@ def train():  # trains the network to output small values
 
         for key, value in outputs.items():
             outputs[key] = sum(value) / len(value)
+
+        # sort based on how good it is at predicting 1/2 inputs[0]
+        target = not(inputs[0] and inputs[1])
+        for key, value in outputs.items():
+            outputs[key] = (value - target) ** 2
 
         outputs = {k: v for k, v in sorted(outputs.items(), key=lambda item: item[1], reverse=False)}
 
@@ -41,8 +46,13 @@ def train():  # trains the network to output small values
             newNetworks.append(netA.breed(netB, epoch))
 
         networks = newNetworks
-
         print(sum(networks[0].calcOutputs(inputs)) / len(networks[0].calcOutputs(inputs)))
+    print(networks[0].calcOutputs([1, 1]))
+    print(networks[0].calcOutputs([0, 1]))
+    print(networks[0].calcOutputs([1, 0]))
+    print(networks[0].calcOutputs([0, 0]))
+
+    print(networks[0].toString())
 
 
 def main():
