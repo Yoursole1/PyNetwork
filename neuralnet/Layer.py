@@ -65,8 +65,9 @@ class Layer:
             selected = random.choice([val1, val2])
 
             mutate = random.random()
-            if mutate < mutationRate:
-                selected += (random.random() - 0.5) / epoch
+            selected += (random.random() - 0.5) / epoch
+            # if mutate < mutationRate:
+            #     pass
             # selected = sigmoid(selected)
 
             biases[i] = selected
@@ -81,8 +82,9 @@ class Layer:
                 selected = random.choice([val1, val2])
 
                 mutate = random.random()
-                if mutate < mutationRate:
-                    selected += (random.random() - 0.5) / epoch
+                selected += (random.random() - 0.5) / epoch
+                # if mutate < mutationRate:
+                #     pass
                 # selected = sigmoid(selected)
 
                 weights[i][j] = selected

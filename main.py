@@ -1,11 +1,10 @@
 import random
 
-from graphic.Board import Board
 from neuralnet.Network import Network
 
 
 def getRandom():
-    a = [0, 1]
+    a = list(range(1, 20))
     output = []
 
     for i in range(2):
@@ -19,7 +18,7 @@ def train():  # trains the network to output small values
 
     amountOfNetworks = 100
     for i in range(amountOfNetworks):
-        networks.append(Network([2, 10, 1]))
+        networks.append(Network([2, 10, 15, 10, 1]))
 
     for epoch in range(1, 2500):
         inputs = getRandom()
@@ -32,7 +31,7 @@ def train():  # trains the network to output small values
             outputs[key] = sum(value) / len(value)
 
         # sort based on how good it is at predicting 1/2 inputs[0]
-        target = not(inputs[0] and inputs[1])
+        target = inputs[0] % inputs[1]
         for key, value in outputs.items():
             outputs[key] = (value - target) ** 2
 
@@ -47,10 +46,11 @@ def train():  # trains the network to output small values
 
         networks = newNetworks
         print(sum(networks[0].calcOutputs(inputs)) / len(networks[0].calcOutputs(inputs)))
-    print(networks[0].calcOutputs([1, 1]))
-    print(networks[0].calcOutputs([0, 1]))
-    print(networks[0].calcOutputs([1, 0]))
-    print(networks[0].calcOutputs([0, 0]))
+    print(networks[0].calcOutputs([2, 1]))  # 0
+    print(networks[0].calcOutputs([12, 6]))  # 0
+    print(networks[0].calcOutputs([9, 4]))  # 1
+    print(networks[0].calcOutputs([22, 10]))  # 2
+    print(networks[0].calcOutputs([50, 30]))  # 20
 
     print(networks[0].toString())
 
