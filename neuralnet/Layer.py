@@ -45,12 +45,12 @@ class Layer:
                 weightedOutput += inputs[nodeIn] * self.weights[nodeOut][nodeIn]
 
             # TODO add sigmoid back
-            outputs.append(relu(weightedOutput))
+            outputs.append(sigmoid(weightedOutput))
 
         return outputs
 
     def breed(self, other, epoch):
-        mutationRate = 1
+        mutationRate = 0.01
 
         weights = copy.deepcopy(self.weights)
         biases = copy.deepcopy(self.biases)
@@ -65,9 +65,9 @@ class Layer:
             selected = random.choice([val1, val2])
 
             mutate = random.random()
-            selected += (random.random() - 0.5) / epoch
-            # if mutate < mutationRate:
-            #     pass
+
+            if mutate < mutationRate:
+                selected += (random.random() - 0.5) / epoch
             # selected = sigmoid(selected)
 
             biases[i] = selected
@@ -82,9 +82,8 @@ class Layer:
                 selected = random.choice([val1, val2])
 
                 mutate = random.random()
-                selected += (random.random() - 0.5) / epoch
-                # if mutate < mutationRate:
-                #     pass
+                if mutate < mutationRate:
+                    selected += (random.random() - 0.5) / epoch
                 # selected = sigmoid(selected)
 
                 weights[i][j] = selected
