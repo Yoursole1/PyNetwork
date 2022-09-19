@@ -56,7 +56,7 @@ def train():  # trains the network to output small values
 
 
 def main():
-    b = Board(50, 30, 30)
+    b = Board(50, 20, 20)
     b.draw()
     # train()
 

@@ -10,12 +10,13 @@ def distanceSquared(creature: Creature, food: Food):
     return (creature.getX() - food.getX()) ** 2 + (creature.getY() - food.getY()) ** 2  # TODO investigate this later
 
 
+# TODO maybe add an attractor (smell) tile that has an input value of like 0.2
 class Board:
 
     def __init__(self, creatures: int, width: int = 10, height: int = 10):
         self.win = None
 
-        self.tileSize = 30
+        self.tileSize = 20
 
         self.squareWidth = width
         self.squareHeight = height
