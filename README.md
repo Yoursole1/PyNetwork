@@ -116,4 +116,4 @@ for i in range(len(self.biases)):
         biases[i] = selected
 ```
 **The GUI (World for the creatures):**
-
+![App Screenshot]()
