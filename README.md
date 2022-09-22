@@ -1,6 +1,5 @@
 # PyNetwork
 
-
 ## Authors
 
 - [@Yoursole1](https://github.com/Yoursole1)
@@ -9,7 +8,9 @@
 
 This is my first attempt at looking into Genetic Algorithms
 for training a population of "creatures" to optimize a task
-within a grid.  
+within a grid.  I did this as a short passion project over the first
+weekend of school, to show as a computer science demo for the IB computer science
+class I am taking to help people get excited.  I hope you find it interesting!
 
 The stages:
 -
@@ -116,4 +117,27 @@ for i in range(len(self.biases)):
         biases[i] = selected
 ```
 **The GUI (World for the creatures):**
+
 ![App Screenshot](https://github.com/Yoursole1/PyNetwork/blob/master/Screen%20Shot%202022-09-22%20at%2012.11.49.png)
+
+This is the world in which the creatures (purple squares) live in.
+They try to walk towards the food (red square).  Each purple square
+has a network associated with it, and the two that get the closest to the 
+food repopulate the next generation.  The five possible outputs are 
+up, down, left, right, and no movement.  Over time, the squares learned 
+to move in the direction of the red square relatively well, 
+however they never learned to get all the way to it and stop.  Rather,
+they often would walk within 2 or 3 squares of it, and then move in
+some loop (keeping a relatively close distance throughout).  
+
+**Future Goals**
+
+While this project is over for me, I think that possible interesting
+additions to this would be adding breeding *within* a generation,
+possibly at the expense of one food.  This would mean that more 
+complex behaivior, like getting to food faster, and optimizing time
+collecting food vs time mating, would start to show.  I might come back to
+this at some point, but I will certainly apply what I learned in this
+project to future things I work on.  
+
+Thanks for reading!
