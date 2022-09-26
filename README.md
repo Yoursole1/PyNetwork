@@ -54,7 +54,7 @@ and the value of the output layer's bias to 0.  This makes sense of course,
 because multiplying the input by 0.5 is dividing by two.  
 
 Next, I trained it to learn the average of two numbers.  This is 
-non-trivial, like the previous training goal.  This is because 
+non-trivial, unlike the previous training goal.  This is because 
 the nature of the transformation between network layers, adding two 
 numbers is something that can only be approximated.  This network had 
 the structure 2->10->1 (2 inputs, 10 nodes in the first hidden layer, and 1 output).
