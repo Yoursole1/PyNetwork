@@ -60,15 +60,13 @@ class Layer:
             val2 = copy.deepcopy(other.biases[i])
 
             # randomly pick one (recombination in life)
-
-            # selected = random.choice([val1, val2])
             selected = random.choice([val1, val2])
 
+            # determines if a mutation happens
             mutate = random.random()
 
             if mutate < mutationRate:
                 selected += (random.random() - 0.5) / epoch
-            # selected = sigmoid(selected)
 
             biases[i] = selected
 

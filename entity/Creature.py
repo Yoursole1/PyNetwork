@@ -16,7 +16,7 @@ class Creature(GameObject):
 
         self.sq = None
 
-        self.movements = ['l', 'r', 'u', 'd']
+        self.movements = ['l', 'r', 'u', 'd', 'n']
 
     def breed(self, other, epoch: int):
         return Creature(self.ai.breed(other.getAi(), epoch), self.width, self.height, self.tileSize)
@@ -45,6 +45,8 @@ class Creature(GameObject):
             if self.xLoc - self.tileSize < 0:
                 return
             self.xLoc -= self.tileSize
+        elif direction == "n":
+            pass
 
     def draw(self, win: GraphWin):
         if not (self.sq is None):

@@ -27,7 +27,7 @@ class Board:
         self.creatures = []
         for i in range(creatures):
             self.creatures.append(
-                Creature(Network([width * height, 100, 100, 100, 4]), self.squareWidth, self.squareHeight,
+                Creature(Network([8, 20, 20, 5]), self.squareWidth, self.squareHeight,
                          self.tileSize))
 
         self.food = []
@@ -91,13 +91,40 @@ class Board:
             # time.sleep(0.1)
 
     def generateInputs(self, creature: Creature):
-        l0 = [0] * (self.squareWidth * self.squareHeight)
+        l0 = [0] * 8
 
-        l0[self.convert(creature.getX(), creature.getY())] = creature.getWeight()
-        for food in self.food:
-            l0[self.convert(food.getX(), food.getY())] = food.getWeight()
+        args = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
+
+        i: int = 0
+        for val in args:
+            l0[i] = self.isFood(creature, val[0], val[1])
+            i += 1
 
         return l0
+
+    # x is -1, 0, 1
+    # y is -1, 0, 1
+    # x and y should not be 0 at the same time
+    def isFood(self, creature: Creature, x: int, y: int):
+        if x == 0 == y:
+            raise Exception("invalid inputs to isFood function")
+
+        isFood = 0
+
+        currentX = creature.getX()
+        currentY = creature.getY()
+
+        for i in range(self.squareWidth + self.squareHeight):
+            try:
+                for food in self.food:
+                    if food.getX() == currentX and food.getY() == currentY:
+                        isFood = i
+                        break
+                currentX += x
+                currentY += y
+            except Exception:
+                break
+        return isFood
 
     def convert(self, x: int, y: int):  # assuming x and y are within valid boundaries
         x /= self.tileSize
