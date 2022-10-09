@@ -141,3 +141,8 @@ this at some point, but I will certainly apply what I learned in this
 project to future things I work on.  
 
 Thanks for reading!
+
+**Updates**
+
+10/8/2022
++ Changed "sight" method of the creatures to the one suggested here (https://github.com/greerviau/SnakeAI).  They now do even better at finding food
